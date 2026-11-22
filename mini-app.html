@@ -1,0 +1,1333 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f8f5ee">
+  <title>EX-DECOR — Каталог материалов</title>
+  <style>
+:root {
+  color-scheme: light;
+  font: 16px system-ui, sans-serif;
+  background: #f8f5ee;
+  color: #242820;
+  --line: #d9d4c8;
+  --ink: #26392a;
+  --paper: #fffdf7;
+}
+* { box-sizing: border-box; }
+body { margin: 0; }
+header, main { max-width: 960px; margin: auto; }
+header { display: flex; justify-content: space-between; padding: 20px 20px 15px; border-bottom: 1px solid var(--line); }
+header strong { letter-spacing: .1em; }
+header strong span { color: #87623b; }
+header > span, #intro { color: #5c6256; }
+main { padding: 24px 20px 100px; }
+h1, h2, p { margin: 0; }
+h1 { font-size: clamp(2rem, 6vw, 3.25rem); line-height: 1; letter-spacing: -.055em; }
+#intro { margin: 10px 0 20px; }
+#filters { display: grid; grid-template-columns: 1.3fr 1fr; gap: 12px; margin-bottom: 22px; }
+label { display: grid; gap: 6px; font-size: .85rem; font-weight: 650; }
+[hidden] { display: none !important; }
+button, input, select, a { font: inherit; }
+button, input, select { border: 1px solid var(--line); border-radius: 9px; color: inherit; background: var(--paper); }
+input, select { min-width: 0; width: 100%; padding: 11px 9px; }
+button { cursor: pointer; min-height: 44px; }
+.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+article { position: relative; background: var(--paper); border: 1px solid var(--line); border-radius: 13px; overflow: hidden; }
+.open { display: grid; width: 100%; padding: 0; text-align: left; border: 0; border-radius: 0; }
+.texture { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; background: #ebe5d7; }
+.summary { display: grid; gap: 5px; padding: 12px; }
+.sku { letter-spacing: .08em; font-size: .76rem; font-weight: 750; color: #545f4f; }
+.status { color: #655c50; font-size: .78rem; }
+.favorite { position: absolute; top: 8px; right: 8px; min-width: 44px; font-size: 1.25rem; }
+nav { position: fixed; bottom: 0; left: 0; right: 0; display: flex; justify-content: center; gap: 6px; padding: 10px 12px max(10px, env(safe-area-inset-bottom)); background: var(--paper); border-top: 1px solid var(--line); }
+nav button { flex: 0 1 175px; padding: 0 8px; }
+[aria-current], [aria-pressed="true"] { color: white; background-color: var(--ink); }
+dialog { width: min(calc(100% - 24px), 540px); max-height: 94dvh; padding: 16px; border: 1px solid var(--line); border-radius: 16px; background: var(--paper); color: inherit; }
+dialog::backdrop { background: #192219aa; }
+.detail-bar, .gallery { display: flex; justify-content: space-between; gap: 8px; margin-bottom: 12px; }
+.detail-bar button, .gallery button { padding: 0 12px; }
+#large-image { border-radius: 10px; margin-bottom: 10px; }
+#large-image.sample { object-fit: contain; }
+h2 { margin-top: 5px; }
+dl { display: grid; grid-template-columns: max-content 1fr; gap: 8px 16px; }
+dd { margin: 0; }
+.contact { display: block; padding: 13px; background: var(--ink); color: white; border-radius: 9px; text-align: center; text-decoration: none; }
+.source { display: block; margin-top: 12px; text-align: center; color: var(--ink); }
+.empty { grid-column: 1 / -1; color: #5c6256; }
+#more { display: block; margin: 20px auto 0; padding: 0 20px; }
+:focus-visible { outline: 3px solid #a26333; outline-offset: -3px; }
+@media (min-width: 760px) { .grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+
+</style>
+  
+  
+</head>
+<body>
+  <header><strong>EX<span>–</span>DECOR</strong><span>Оренбург</span></header>
+  <main>
+    <h1 id="heading">Каталог материалов</h1>
+    <p id="intro">Панели и гибкий мрамор из каталога EX-DECOR</p>
+    <section id="filters" aria-label="Фильтры">
+      <label>Поиск <input id="query" type="search" placeholder="Артикул или оттенок"></label>
+      <label>Материал <select id="material"><option value="">Все материалы</option><option>Бамбуковые панели</option><option>Гибкий мрамор</option></select></label>
+      <label>Оттенок <select id="tone"><option value="">Все оттенки</option><option>Светлый</option><option>Тёплый</option></select></label>
+      <label id="budget-field" hidden>Бюджет до, ₽ <input id="budget" type="number" inputmode="numeric" min="0" placeholder="Любой"></label>
+    </section>
+    <div id="products" class="grid" aria-live="polite"></div>
+    <button id="more" type="button" hidden>Показать ещё</button>
+  </main>
+  <nav aria-label="Разделы витрины">
+    <button type="button" data-view="catalog" aria-current="page">Каталог</button>
+    <button type="button" data-view="match">Подбор</button>
+    <button type="button" data-view="saved">Избранное</button>
+  </nav>
+  <dialog id="details" aria-labelledby="detail-title">
+    <div class="detail-bar"><button id="close" type="button">Закрыть</button><button id="save" type="button">В избранное</button></div>
+    <img id="large-image" class="texture" alt="">
+    <div class="gallery" aria-label="Вид образца"><button type="button" data-photo="sample" aria-pressed="true">Фото из каталога</button><button type="button" data-photo="interior" aria-pressed="false">Пример в интерьере</button></div>
+    <p id="detail-sku" class="sku"></p>
+    <h2 id="detail-title"></h2>
+    <dl id="specs"></dl>
+    <a id="contact" class="contact" href="https://t.me/panelka56" target="_blank" rel="noopener">Уточнить в шоуруме</a>
+    <a id="source" class="source" href="https://exdecor-ru.github.io/" target="_blank" rel="noopener">Смотреть на сайте EX-DECOR</a>
+  </dialog>
+<script>
+const items = [
+  {
+    "sku": "EX001A",
+    "name": "Древесный декор EX001A",
+    "material": "Бамбуковые панели",
+    "tone": "Тёплый",
+    "size": "Длина 3 м",
+    "interior": "m-bambuk",
+    "section": "katalog-bambuk",
+    "collection": "Дерево",
+    "image": "cat/bs/EX001A.jpg"
+  },
+  {
+    "sku": "EX002A",
+    "name": "Древесный декор EX002A",
+    "material": "Бамбуковые панели",
+    "tone": "Тёплый",
+    "size": "Длина 3 м",
+    "interior": "m-bambuk",
+    "section": "katalog-bambuk",
+    "collection": "Дерево",
+    "image": "cat/bs/EX002A.jpg"
+  },
+  {
+    "sku": "EX003A",
+    "name": "Бамбуковые панели EX003A",
+    "material": "Бамбуковые панели",
+    "tone": "Смотрите на фото",
+    "size": "Длина 3 м",
+    "interior": "m-bambuk",
+    "section": "katalog-bambuk",
+    "collection": "Дерево",
+    "image": "cat/bs/EX003A.jpg"
+  },
+  {
+    "sku": "EX087Y",
+    "name": "Бамбуковые панели EX087Y",
+    "material": "Бамбуковые панели",
+    "tone": "Смотрите на фото",
+    "size": "Длина 3 м",
+    "interior": "m-bambuk",
+    "section": "katalog-bambuk",
+    "collection": "Арт-серия",
+    "image": "cat/bs/EX087Y.jpg"
+  },
+  {
+    "sku": "EX103B",
+    "name": "Бамбуковые панели EX103B",
+    "material": "Бамбуковые панели",
+    "tone": "Смотрите на фото",
+    "size": "Длина 3 м",
+    "interior": "m-bambuk",
+    "section": "katalog-bambuk",
+    "collection": "Арт-ткань",
+    "image": "cat/bs/EX103B.jpg"
+  },
+  {
+    "sku": "EX122P",
+    "name": "Бамбуковые панели EX122P",
+    "material": "Бамбуковые панели",
+    "tone": "Смотрите на фото",
+    "size": "Длина 3 м",
+    "interior": "m-bambuk",
+    "section": "katalog-bambuk",
+    "collection": "Классическая ткань",
+    "image": "cat/bs/EX122P.jpg"
+  },
+  {
+    "sku": "EX187A",
+    "name": "Бамбуковые панели EX187A",
+    "material": "Бамбуковые панели",
+    "tone": "Смотрите на фото",
+    "size": "Длина 3 м",
+    "interior": "m-bambuk",
+    "section": "katalog-bambuk",
+    "collection": "Премиум металл",
+    "image": "cat/bs/EX187A.jpg"
+  },
+  {
+    "sku": "EX199B",
+    "name": "Бамбуковые панели EX199B",
+    "material": "Бамбуковые панели",
+    "tone": "Смотрите на фото",
+    "size": "Длина 3 м",
+    "interior": "m-bambuk",
+    "section": "katalog-bambuk",
+    "collection": "Металл",
+    "image": "cat/bs/EX199B.jpg"
+  },
+  {
+    "sku": "EX202M",
+    "name": "Бамбуковые панели EX202M",
+    "material": "Бамбуковые панели",
+    "tone": "Смотрите на фото",
+    "size": "Длина 3 м",
+    "interior": "m-bambuk",
+    "section": "katalog-bambuk",
+    "collection": "Металл PET",
+    "image": "cat/bs/EX202M.jpg"
+  },
+  {
+    "sku": "EX006A",
+    "name": "Бамбуковые панели EX006A",
+    "material": "Бамбуковые панели",
+    "tone": "Смотрите на фото",
+    "size": "Длина 3 м",
+    "interior": "m-bambuk",
+    "section": "katalog-bambuk",
+    "collection": "Дерево",
+    "image": "cat/bs/EX006A.jpg"
+  },
+  {
+    "sku": "EX088Y",
+    "name": "Бамбуковые панели EX088Y",
+    "material": "Бамбуковые панели",
+    "tone": "Смотрите на фото",
+    "size": "Длина 3 м",
+    "interior": "m-bambuk",
+    "section": "katalog-bambuk",
+    "collection": "Арт-серия",
+    "image": "cat/bs/EX088Y.jpg"
+  },
+  {
+    "sku": "EX104B",
+    "name": "Бамбуковые панели EX104B",
+    "material": "Бамбуковые панели",
+    "tone": "Смотрите на фото",
+    "size": "Длина 3 м",
+    "interior": "m-bambuk",
+    "section": "katalog-bambuk",
+    "collection": "Арт-ткань",
+    "image": "cat/bs/EX104B.jpg"
+  },
+  {
+    "sku": "EX123P",
+    "name": "Бамбуковые панели EX123P",
+    "material": "Бамбуковые панели",
+    "tone": "Смотрите на фото",
+    "size": "Длина 3 м",
+    "interior": "m-bambuk",
+    "section": "katalog-bambuk",
+    "collection": "Классическая ткань",
+    "image": "cat/bs/EX123P.jpg"
+  },
+  {
+    "sku": "EX188A",
+    "name": "Бамбуковые панели EX188A",
+    "material": "Бамбуковые панели",
+    "tone": "Смотрите на фото",
+    "size": "Длина 3 м",
+    "interior": "m-bambuk",
+    "section": "katalog-bambuk",
+    "collection": "Премиум металл",
+    "image": "cat/bs/EX188A.jpg"
+  },
+  {
+    "sku": "EX200B",
+    "name": "Бамбуковые панели EX200B",
+    "material": "Бамбуковые панели",
+    "tone": "Смотрите на фото",
+    "size": "Длина 3 м",
+    "interior": "m-bambuk",
+    "section": "katalog-bambuk",
+    "collection": "Металл",
+    "image": "cat/bs/EX200B.jpg"
+  },
+  {
+    "sku": "EX203M",
+    "name": "Бамбуковые панели EX203M",
+    "material": "Бамбуковые панели",
+    "tone": "Смотрите на фото",
+    "size": "Длина 3 м",
+    "interior": "m-bambuk",
+    "section": "katalog-bambuk",
+    "collection": "Металл PET",
+    "image": "cat/bs/EX203M.jpg"
+  },
+  {
+    "sku": "EX007A",
+    "name": "Бамбуковые панели EX007A",
+    "material": "Бамбуковые панели",
+    "tone": "Смотрите на фото",
+    "size": "Длина 3 м",
+    "interior": "m-bambuk",
+    "section": "katalog-bambuk",
+    "collection": "Дерево",
+    "image": "cat/bs/EX007A.jpg"
+  },
+  {
+    "sku": "EX089Y",
+    "name": "Бамбуковые панели EX089Y",
+    "material": "Бамбуковые панели",
+    "tone": "Смотрите на фото",
+    "size": "Длина 3 м",
+    "interior": "m-bambuk",
+    "section": "katalog-bambuk",
+    "collection": "Арт-серия",
+    "image": "cat/bs/EX089Y.jpg"
+  },
+  {
+    "sku": "EX105B",
+    "name": "Бамбуковые панели EX105B",
+    "material": "Бамбуковые панели",
+    "tone": "Смотрите на фото",
+    "size": "Длина 3 м",
+    "interior": "m-bambuk",
+    "section": "katalog-bambuk",
+    "collection": "Арт-ткань",
+    "image": "cat/bs/EX105B.jpg"
+  },
+  {
+    "sku": "EX124P",
+    "name": "Бамбуковые панели EX124P",
+    "material": "Бамбуковые панели",
+    "tone": "Смотрите на фото",
+    "size": "Длина 3 м",
+    "interior": "m-bambuk",
+    "section": "katalog-bambuk",
+    "collection": "Классическая ткань",
+    "image": "cat/bs/EX124P.jpg"
+  },
+  {
+    "sku": "EX189A",
+    "name": "Бамбуковые панели EX189A",
+    "material": "Бамбуковые панели",
+    "tone": "Смотрите на фото",
+    "size": "Длина 3 м",
+    "interior": "m-bambuk",
+    "section": "katalog-bambuk",
+    "collection": "Премиум металл",
+    "image": "cat/bs/EX189A.jpg"
+  },
+  {
+    "sku": "EX201B",
+    "name": "Бамбуковые панели EX201B",
+    "material": "Бамбуковые панели",
+    "tone": "Смотрите на фото",
+    "size": "Длина 3 м",
+    "interior": "m-bambuk",
+    "section": "katalog-bambuk",
+    "collection": "Металл",
+    "image": "cat/bs/EX201B.jpg"
+  },
+  {
+    "sku": "EX204M",
+    "name": "Бамбуковые панели EX204M",
+    "material": "Бамбуковые панели",
+    "tone": "Смотрите на фото",
+    "size": "Длина 3 м",
+    "interior": "m-bambuk",
+    "section": "katalog-bambuk",
+    "collection": "Металл PET",
+    "image": "cat/bs/EX204M.jpg"
+  },
+  {
+    "sku": "EX008A",
+    "name": "Бамбуковые панели EX008A",
+    "material": "Бамбуковые панели",
+    "tone": "Смотрите на фото",
+    "size": "Длина 3 м",
+    "interior": "m-bambuk",
+    "section": "katalog-bambuk",
+    "collection": "Дерево",
+    "image": "cat/bs/EX008A.jpg"
+  },
+  {
+    "sku": "EX090Y",
+    "name": "Бамбуковые панели EX090Y",
+    "material": "Бамбуковые панели",
+    "tone": "Смотрите на фото",
+    "size": "Длина 3 м",
+    "interior": "m-bambuk",
+    "section": "katalog-bambuk",
+    "collection": "Арт-серия",
+    "image": "cat/bs/EX090Y.jpg"
+  },
+  {
+    "sku": "EX106B",
+    "name": "Бамбуковые панели EX106B",
+    "material": "Бамбуковые панели",
+    "tone": "Смотрите на фото",
+    "size": "Длина 3 м",
+    "interior": "m-bambuk",
+    "section": "katalog-bambuk",
+    "collection": "Арт-ткань",
+    "image": "cat/bs/EX106B.jpg"
+  },
+  {
+    "sku": "EX125P",
+    "name": "Бамбуковые панели EX125P",
+    "material": "Бамбуковые панели",
+    "tone": "Смотрите на фото",
+    "size": "Длина 3 м",
+    "interior": "m-bambuk",
+    "section": "katalog-bambuk",
+    "collection": "Классическая ткань",
+    "image": "cat/bs/EX125P.jpg"
+  },
+  {
+    "sku": "EX193A",
+    "name": "Бамбуковые панели EX193A",
+    "material": "Бамбуковые панели",
+    "tone": "Смотрите на фото",
+    "size": "Длина 3 м",
+    "interior": "m-bambuk",
+    "section": "katalog-bambuk",
+    "collection": "Премиум металл",
+    "image": "cat/bs/EX193A.jpg"
+  },
+  {
+    "sku": "EX205M",
+    "name": "Бамбуковые панели EX205M",
+    "material": "Бамбуковые панели",
+    "tone": "Смотрите на фото",
+    "size": "Длина 3 м",
+    "interior": "m-bambuk",
+    "section": "katalog-bambuk",
+    "collection": "Металл PET",
+    "image": "cat/bs/EX205M.jpg"
+  },
+  {
+    "sku": "EX009A",
+    "name": "Бамбуковые панели EX009A",
+    "material": "Бамбуковые панели",
+    "tone": "Смотрите на фото",
+    "size": "Длина 3 м",
+    "interior": "m-bambuk",
+    "section": "katalog-bambuk",
+    "collection": "Дерево",
+    "image": "cat/bs/EX009A.jpg"
+  },
+  {
+    "sku": "EX091Y",
+    "name": "Бамбуковые панели EX091Y",
+    "material": "Бамбуковые панели",
+    "tone": "Смотрите на фото",
+    "size": "Длина 3 м",
+    "interior": "m-bambuk",
+    "section": "katalog-bambuk",
+    "collection": "Арт-серия",
+    "image": "cat/bs/EX091Y.jpg"
+  },
+  {
+    "sku": "EX107B",
+    "name": "Бамбуковые панели EX107B",
+    "material": "Бамбуковые панели",
+    "tone": "Смотрите на фото",
+    "size": "Длина 3 м",
+    "interior": "m-bambuk",
+    "section": "katalog-bambuk",
+    "collection": "Арт-ткань",
+    "image": "cat/bs/EX107B.jpg"
+  },
+  {
+    "sku": "EX126P",
+    "name": "Бамбуковые панели EX126P",
+    "material": "Бамбуковые панели",
+    "tone": "Смотрите на фото",
+    "size": "Длина 3 м",
+    "interior": "m-bambuk",
+    "section": "katalog-bambuk",
+    "collection": "Классическая ткань",
+    "image": "cat/bs/EX126P.jpg"
+  },
+  {
+    "sku": "EX194A",
+    "name": "Бамбуковые панели EX194A",
+    "material": "Бамбуковые панели",
+    "tone": "Смотрите на фото",
+    "size": "Длина 3 м",
+    "interior": "m-bambuk",
+    "section": "katalog-bambuk",
+    "collection": "Премиум металл",
+    "image": "cat/bs/EX194A.jpg"
+  },
+  {
+    "sku": "EX206M",
+    "name": "Бамбуковые панели EX206M",
+    "material": "Бамбуковые панели",
+    "tone": "Смотрите на фото",
+    "size": "Длина 3 м",
+    "interior": "m-bambuk",
+    "section": "katalog-bambuk",
+    "collection": "Металл PET",
+    "image": "cat/bs/EX206M.jpg"
+  },
+  {
+    "sku": "EX010A",
+    "name": "Бамбуковые панели EX010A",
+    "material": "Бамбуковые панели",
+    "tone": "Смотрите на фото",
+    "size": "Длина 3 м",
+    "interior": "m-bambuk",
+    "section": "katalog-bambuk",
+    "collection": "Дерево",
+    "image": "cat/bs/EX010A.jpg"
+  },
+  {
+    "sku": "EX092Y",
+    "name": "Бамбуковые панели EX092Y",
+    "material": "Бамбуковые панели",
+    "tone": "Смотрите на фото",
+    "size": "Длина 3 м",
+    "interior": "m-bambuk",
+    "section": "katalog-bambuk",
+    "collection": "Арт-серия",
+    "image": "cat/bs/EX092Y.jpg"
+  },
+  {
+    "sku": "EX108B",
+    "name": "Бамбуковые панели EX108B",
+    "material": "Бамбуковые панели",
+    "tone": "Смотрите на фото",
+    "size": "Длина 3 м",
+    "interior": "m-bambuk",
+    "section": "katalog-bambuk",
+    "collection": "Арт-ткань",
+    "image": "cat/bs/EX108B.jpg"
+  },
+  {
+    "sku": "EX127P",
+    "name": "Бамбуковые панели EX127P",
+    "material": "Бамбуковые панели",
+    "tone": "Смотрите на фото",
+    "size": "Длина 3 м",
+    "interior": "m-bambuk",
+    "section": "katalog-bambuk",
+    "collection": "Классическая ткань",
+    "image": "cat/bs/EX127P.jpg"
+  },
+  {
+    "sku": "EX195A",
+    "name": "Бамбуковые панели EX195A",
+    "material": "Бамбуковые панели",
+    "tone": "Смотрите на фото",
+    "size": "Длина 3 м",
+    "interior": "m-bambuk",
+    "section": "katalog-bambuk",
+    "collection": "Премиум металл",
+    "image": "cat/bs/EX195A.jpg"
+  },
+  {
+    "sku": "EX207M",
+    "name": "Бамбуковые панели EX207M",
+    "material": "Бамбуковые панели",
+    "tone": "Смотрите на фото",
+    "size": "Длина 3 м",
+    "interior": "m-bambuk",
+    "section": "katalog-bambuk",
+    "collection": "Металл PET",
+    "image": "cat/bs/EX207M.jpg"
+  },
+  {
+    "sku": "EX011A",
+    "name": "Бамбуковые панели EX011A",
+    "material": "Бамбуковые панели",
+    "tone": "Смотрите на фото",
+    "size": "Длина 3 м",
+    "interior": "m-bambuk",
+    "section": "katalog-bambuk",
+    "collection": "Дерево",
+    "image": "cat/bs/EX011A.jpg"
+  },
+  {
+    "sku": "EX093Y",
+    "name": "Бамбуковые панели EX093Y",
+    "material": "Бамбуковые панели",
+    "tone": "Смотрите на фото",
+    "size": "Длина 3 м",
+    "interior": "m-bambuk",
+    "section": "katalog-bambuk",
+    "collection": "Арт-серия",
+    "image": "cat/bs/EX093Y.jpg"
+  },
+  {
+    "sku": "EX109B",
+    "name": "Бамбуковые панели EX109B",
+    "material": "Бамбуковые панели",
+    "tone": "Смотрите на фото",
+    "size": "Длина 3 м",
+    "interior": "m-bambuk",
+    "section": "katalog-bambuk",
+    "collection": "Арт-ткань",
+    "image": "cat/bs/EX109B.jpg"
+  },
+  {
+    "sku": "EX128P",
+    "name": "Бамбуковые панели EX128P",
+    "material": "Бамбуковые панели",
+    "tone": "Смотрите на фото",
+    "size": "Длина 3 м",
+    "interior": "m-bambuk",
+    "section": "katalog-bambuk",
+    "collection": "Классическая ткань",
+    "image": "cat/bs/EX128P.jpg"
+  },
+  {
+    "sku": "EX208M",
+    "name": "Бамбуковые панели EX208M",
+    "material": "Бамбуковые панели",
+    "tone": "Смотрите на фото",
+    "size": "Длина 3 м",
+    "interior": "m-bambuk",
+    "section": "katalog-bambuk",
+    "collection": "Металл PET",
+    "image": "cat/bs/EX208M.jpg"
+  },
+  {
+    "sku": "EX012A",
+    "name": "Бамбуковые панели EX012A",
+    "material": "Бамбуковые панели",
+    "tone": "Смотрите на фото",
+    "size": "Длина 3 м",
+    "interior": "m-bambuk",
+    "section": "katalog-bambuk",
+    "collection": "Дерево",
+    "image": "cat/bs/EX012A.jpg"
+  },
+  {
+    "sku": "EX094Y",
+    "name": "Бамбуковые панели EX094Y",
+    "material": "Бамбуковые панели",
+    "tone": "Смотрите на фото",
+    "size": "Длина 3 м",
+    "interior": "m-bambuk",
+    "section": "katalog-bambuk",
+    "collection": "Арт-серия",
+    "image": "cat/bs/EX094Y.jpg"
+  },
+  {
+    "sku": "EX110A",
+    "name": "Бамбуковые панели EX110A",
+    "material": "Бамбуковые панели",
+    "tone": "Смотрите на фото",
+    "size": "Длина 3 м",
+    "interior": "m-bambuk",
+    "section": "katalog-bambuk",
+    "collection": "Арт-ткань",
+    "image": "cat/bs/EX110A.jpg"
+  },
+  {
+    "sku": "EX129P",
+    "name": "Бамбуковые панели EX129P",
+    "material": "Бамбуковые панели",
+    "tone": "Смотрите на фото",
+    "size": "Длина 3 м",
+    "interior": "m-bambuk",
+    "section": "katalog-bambuk",
+    "collection": "Классическая ткань",
+    "image": "cat/bs/EX129P.jpg"
+  },
+  {
+    "sku": "C02",
+    "name": "Светлый мрамор с серыми прожилками",
+    "material": "Гибкий мрамор",
+    "tone": "Светлый",
+    "size": "2,8 × 1,22 м, толщина 3 мм",
+    "interior": "m-mramor",
+    "section": "katalog-mramor",
+    "collection": "Серия C",
+    "image": "cat/m/C02.jpg"
+  },
+  {
+    "sku": "E02",
+    "name": "Светлый мрамор с золотистыми прожилками",
+    "material": "Гибкий мрамор",
+    "tone": "Светлый",
+    "size": "2,8 × 1,22 м, толщина 3 мм",
+    "interior": "m-mramor",
+    "section": "katalog-mramor",
+    "collection": "Серия E",
+    "image": "cat/m/E02.jpg"
+  },
+  {
+    "sku": "C03",
+    "name": "Гибкий мрамор C03",
+    "material": "Гибкий мрамор",
+    "tone": "Смотрите на фото",
+    "size": "2,8 × 1,22 м, толщина 3 мм",
+    "interior": "m-mramor",
+    "section": "katalog-mramor",
+    "collection": "Серия C",
+    "image": "cat/m/C03.jpg"
+  },
+  {
+    "sku": "E03",
+    "name": "Гибкий мрамор E03",
+    "material": "Гибкий мрамор",
+    "tone": "Смотрите на фото",
+    "size": "2,8 × 1,22 м, толщина 3 мм",
+    "interior": "m-mramor",
+    "section": "katalog-mramor",
+    "collection": "Серия E",
+    "image": "cat/m/E03.jpg"
+  },
+  {
+    "sku": "M08",
+    "name": "Гибкий мрамор M08",
+    "material": "Гибкий мрамор",
+    "tone": "Смотрите на фото",
+    "size": "2,8 × 1,22 м, толщина 3 мм",
+    "interior": "m-mramor",
+    "section": "katalog-mramor",
+    "collection": "Серия M",
+    "image": "cat/m/M08.jpg"
+  },
+  {
+    "sku": "C04",
+    "name": "Гибкий мрамор C04",
+    "material": "Гибкий мрамор",
+    "tone": "Смотрите на фото",
+    "size": "2,8 × 1,22 м, толщина 3 мм",
+    "interior": "m-mramor",
+    "section": "katalog-mramor",
+    "collection": "Серия C",
+    "image": "cat/m/C04.jpg"
+  },
+  {
+    "sku": "E06",
+    "name": "Гибкий мрамор E06",
+    "material": "Гибкий мрамор",
+    "tone": "Смотрите на фото",
+    "size": "2,8 × 1,22 м, толщина 3 мм",
+    "interior": "m-mramor",
+    "section": "katalog-mramor",
+    "collection": "Серия E",
+    "image": "cat/m/E06.jpg"
+  },
+  {
+    "sku": "M14",
+    "name": "Гибкий мрамор M14",
+    "material": "Гибкий мрамор",
+    "tone": "Смотрите на фото",
+    "size": "2,8 × 1,22 м, толщина 3 мм",
+    "interior": "m-mramor",
+    "section": "katalog-mramor",
+    "collection": "Серия M",
+    "image": "cat/m/M14.jpg"
+  },
+  {
+    "sku": "C05",
+    "name": "Гибкий мрамор C05",
+    "material": "Гибкий мрамор",
+    "tone": "Смотрите на фото",
+    "size": "2,8 × 1,22 м, толщина 3 мм",
+    "interior": "m-mramor",
+    "section": "katalog-mramor",
+    "collection": "Серия C",
+    "image": "cat/m/C05.jpg"
+  },
+  {
+    "sku": "E07",
+    "name": "Гибкий мрамор E07",
+    "material": "Гибкий мрамор",
+    "tone": "Смотрите на фото",
+    "size": "2,8 × 1,22 м, толщина 3 мм",
+    "interior": "m-mramor",
+    "section": "katalog-mramor",
+    "collection": "Серия E",
+    "image": "cat/m/E07.jpg"
+  },
+  {
+    "sku": "M28",
+    "name": "Гибкий мрамор M28",
+    "material": "Гибкий мрамор",
+    "tone": "Смотрите на фото",
+    "size": "2,8 × 1,22 м, толщина 3 мм",
+    "interior": "m-mramor",
+    "section": "katalog-mramor",
+    "collection": "Серия M",
+    "image": "cat/m/M28.jpg"
+  },
+  {
+    "sku": "C06",
+    "name": "Гибкий мрамор C06",
+    "material": "Гибкий мрамор",
+    "tone": "Смотрите на фото",
+    "size": "2,8 × 1,22 м, толщина 3 мм",
+    "interior": "m-mramor",
+    "section": "katalog-mramor",
+    "collection": "Серия C",
+    "image": "cat/m/C06.jpg"
+  },
+  {
+    "sku": "E08",
+    "name": "Гибкий мрамор E08",
+    "material": "Гибкий мрамор",
+    "tone": "Смотрите на фото",
+    "size": "2,8 × 1,22 м, толщина 3 мм",
+    "interior": "m-mramor",
+    "section": "katalog-mramor",
+    "collection": "Серия E",
+    "image": "cat/m/E08.jpg"
+  },
+  {
+    "sku": "M34",
+    "name": "Гибкий мрамор M34",
+    "material": "Гибкий мрамор",
+    "tone": "Смотрите на фото",
+    "size": "2,8 × 1,22 м, толщина 3 мм",
+    "interior": "m-mramor",
+    "section": "katalog-mramor",
+    "collection": "Серия M",
+    "image": "cat/m/M34.jpg"
+  },
+  {
+    "sku": "C07",
+    "name": "Гибкий мрамор C07",
+    "material": "Гибкий мрамор",
+    "tone": "Смотрите на фото",
+    "size": "2,8 × 1,22 м, толщина 3 мм",
+    "interior": "m-mramor",
+    "section": "katalog-mramor",
+    "collection": "Серия C",
+    "image": "cat/m/C07.jpg"
+  },
+  {
+    "sku": "E10",
+    "name": "Гибкий мрамор E10",
+    "material": "Гибкий мрамор",
+    "tone": "Смотрите на фото",
+    "size": "2,8 × 1,22 м, толщина 3 мм",
+    "interior": "m-mramor",
+    "section": "katalog-mramor",
+    "collection": "Серия E",
+    "image": "cat/m/E10.jpg"
+  },
+  {
+    "sku": "M36",
+    "name": "Гибкий мрамор M36",
+    "material": "Гибкий мрамор",
+    "tone": "Смотрите на фото",
+    "size": "2,8 × 1,22 м, толщина 3 мм",
+    "interior": "m-mramor",
+    "section": "katalog-mramor",
+    "collection": "Серия M",
+    "image": "cat/m/M36.jpg"
+  },
+  {
+    "sku": "C08",
+    "name": "Гибкий мрамор C08",
+    "material": "Гибкий мрамор",
+    "tone": "Смотрите на фото",
+    "size": "2,8 × 1,22 м, толщина 3 мм",
+    "interior": "m-mramor",
+    "section": "katalog-mramor",
+    "collection": "Серия C",
+    "image": "cat/m/C08.jpg"
+  },
+  {
+    "sku": "E11",
+    "name": "Гибкий мрамор E11",
+    "material": "Гибкий мрамор",
+    "tone": "Смотрите на фото",
+    "size": "2,8 × 1,22 м, толщина 3 мм",
+    "interior": "m-mramor",
+    "section": "katalog-mramor",
+    "collection": "Серия E",
+    "image": "cat/m/E11.jpg"
+  },
+  {
+    "sku": "M39",
+    "name": "Гибкий мрамор M39",
+    "material": "Гибкий мрамор",
+    "tone": "Смотрите на фото",
+    "size": "2,8 × 1,22 м, толщина 3 мм",
+    "interior": "m-mramor",
+    "section": "katalog-mramor",
+    "collection": "Серия M",
+    "image": "cat/m/M39.jpg"
+  },
+  {
+    "sku": "C11",
+    "name": "Гибкий мрамор C11",
+    "material": "Гибкий мрамор",
+    "tone": "Смотрите на фото",
+    "size": "2,8 × 1,22 м, толщина 3 мм",
+    "interior": "m-mramor",
+    "section": "katalog-mramor",
+    "collection": "Серия C",
+    "image": "cat/m/C11.jpg"
+  },
+  {
+    "sku": "E12",
+    "name": "Гибкий мрамор E12",
+    "material": "Гибкий мрамор",
+    "tone": "Смотрите на фото",
+    "size": "2,8 × 1,22 м, толщина 3 мм",
+    "interior": "m-mramor",
+    "section": "katalog-mramor",
+    "collection": "Серия E",
+    "image": "cat/m/E12.jpg"
+  },
+  {
+    "sku": "M61",
+    "name": "Гибкий мрамор M61",
+    "material": "Гибкий мрамор",
+    "tone": "Смотрите на фото",
+    "size": "2,8 × 1,22 м, толщина 3 мм",
+    "interior": "m-mramor",
+    "section": "katalog-mramor",
+    "collection": "Серия M",
+    "image": "cat/m/M61.jpg"
+  },
+  {
+    "sku": "C12",
+    "name": "Гибкий мрамор C12",
+    "material": "Гибкий мрамор",
+    "tone": "Смотрите на фото",
+    "size": "2,8 × 1,22 м, толщина 3 мм",
+    "interior": "m-mramor",
+    "section": "katalog-mramor",
+    "collection": "Серия C",
+    "image": "cat/m/C12.jpg"
+  },
+  {
+    "sku": "E14",
+    "name": "Гибкий мрамор E14",
+    "material": "Гибкий мрамор",
+    "tone": "Смотрите на фото",
+    "size": "2,8 × 1,22 м, толщина 3 мм",
+    "interior": "m-mramor",
+    "section": "katalog-mramor",
+    "collection": "Серия E",
+    "image": "cat/m/E14.jpg"
+  },
+  {
+    "sku": "M64",
+    "name": "Гибкий мрамор M64",
+    "material": "Гибкий мрамор",
+    "tone": "Смотрите на фото",
+    "size": "2,8 × 1,22 м, толщина 3 мм",
+    "interior": "m-mramor",
+    "section": "katalog-mramor",
+    "collection": "Серия M",
+    "image": "cat/m/M64.jpg"
+  },
+  {
+    "sku": "E27",
+    "name": "Гибкий мрамор E27",
+    "material": "Гибкий мрамор",
+    "tone": "Смотрите на фото",
+    "size": "2,8 × 1,22 м, толщина 3 мм",
+    "interior": "m-mramor",
+    "section": "katalog-mramor",
+    "collection": "Серия E",
+    "image": "cat/m/E27.jpg"
+  },
+  {
+    "sku": "M65",
+    "name": "Гибкий мрамор M65",
+    "material": "Гибкий мрамор",
+    "tone": "Смотрите на фото",
+    "size": "2,8 × 1,22 м, толщина 3 мм",
+    "interior": "m-mramor",
+    "section": "katalog-mramor",
+    "collection": "Серия M",
+    "image": "cat/m/M65.jpg"
+  },
+  {
+    "sku": "E28",
+    "name": "Гибкий мрамор E28",
+    "material": "Гибкий мрамор",
+    "tone": "Смотрите на фото",
+    "size": "2,8 × 1,22 м, толщина 3 мм",
+    "interior": "m-mramor",
+    "section": "katalog-mramor",
+    "collection": "Серия E",
+    "image": "cat/m/E28.jpg"
+  },
+  {
+    "sku": "M66",
+    "name": "Гибкий мрамор M66",
+    "material": "Гибкий мрамор",
+    "tone": "Смотрите на фото",
+    "size": "2,8 × 1,22 м, толщина 3 мм",
+    "interior": "m-mramor",
+    "section": "katalog-mramor",
+    "collection": "Серия M",
+    "image": "cat/m/M66.jpg"
+  },
+  {
+    "sku": "E29",
+    "name": "Гибкий мрамор E29",
+    "material": "Гибкий мрамор",
+    "tone": "Смотрите на фото",
+    "size": "2,8 × 1,22 м, толщина 3 мм",
+    "interior": "m-mramor",
+    "section": "katalog-mramor",
+    "collection": "Серия E",
+    "image": "cat/m/E29.jpg"
+  },
+  {
+    "sku": "M68",
+    "name": "Гибкий мрамор M68",
+    "material": "Гибкий мрамор",
+    "tone": "Смотрите на фото",
+    "size": "2,8 × 1,22 м, толщина 3 мм",
+    "interior": "m-mramor",
+    "section": "katalog-mramor",
+    "collection": "Серия M",
+    "image": "cat/m/M68.jpg"
+  },
+  {
+    "sku": "E30",
+    "name": "Гибкий мрамор E30",
+    "material": "Гибкий мрамор",
+    "tone": "Смотрите на фото",
+    "size": "2,8 × 1,22 м, толщина 3 мм",
+    "interior": "m-mramor",
+    "section": "katalog-mramor",
+    "collection": "Серия E",
+    "image": "cat/m/E30.jpg"
+  },
+  {
+    "sku": "M69",
+    "name": "Гибкий мрамор M69",
+    "material": "Гибкий мрамор",
+    "tone": "Смотрите на фото",
+    "size": "2,8 × 1,22 м, толщина 3 мм",
+    "interior": "m-mramor",
+    "section": "katalog-mramor",
+    "collection": "Серия M",
+    "image": "cat/m/M69.jpg"
+  },
+  {
+    "sku": "E31",
+    "name": "Гибкий мрамор E31",
+    "material": "Гибкий мрамор",
+    "tone": "Смотрите на фото",
+    "size": "2,8 × 1,22 м, толщина 3 мм",
+    "interior": "m-mramor",
+    "section": "katalog-mramor",
+    "collection": "Серия E",
+    "image": "cat/m/E31.jpg"
+  },
+  {
+    "sku": "M70",
+    "name": "Гибкий мрамор M70",
+    "material": "Гибкий мрамор",
+    "tone": "Смотрите на фото",
+    "size": "2,8 × 1,22 м, толщина 3 мм",
+    "interior": "m-mramor",
+    "section": "katalog-mramor",
+    "collection": "Серия M",
+    "image": "cat/m/M70.jpg"
+  },
+  {
+    "sku": "E32",
+    "name": "Гибкий мрамор E32",
+    "material": "Гибкий мрамор",
+    "tone": "Смотрите на фото",
+    "size": "2,8 × 1,22 м, толщина 3 мм",
+    "interior": "m-mramor",
+    "section": "katalog-mramor",
+    "collection": "Серия E",
+    "image": "cat/m/E32.jpg"
+  },
+  {
+    "sku": "M71",
+    "name": "Гибкий мрамор M71",
+    "material": "Гибкий мрамор",
+    "tone": "Смотрите на фото",
+    "size": "2,8 × 1,22 м, толщина 3 мм",
+    "interior": "m-mramor",
+    "section": "katalog-mramor",
+    "collection": "Серия M",
+    "image": "cat/m/M71.jpg"
+  },
+  {
+    "sku": "E33",
+    "name": "Гибкий мрамор E33",
+    "material": "Гибкий мрамор",
+    "tone": "Смотрите на фото",
+    "size": "2,8 × 1,22 м, толщина 3 мм",
+    "interior": "m-mramor",
+    "section": "katalog-mramor",
+    "collection": "Серия E",
+    "image": "cat/m/E33.jpg"
+  },
+  {
+    "sku": "M71-B",
+    "name": "Гибкий мрамор M71-B",
+    "material": "Гибкий мрамор",
+    "tone": "Смотрите на фото",
+    "size": "2,8 × 1,22 м, толщина 3 мм",
+    "interior": "m-mramor",
+    "section": "katalog-mramor",
+    "collection": "Серия M",
+    "image": "cat/m/M71-B.jpg"
+  },
+  {
+    "sku": "E34",
+    "name": "Гибкий мрамор E34",
+    "material": "Гибкий мрамор",
+    "tone": "Смотрите на фото",
+    "size": "2,8 × 1,22 м, толщина 3 мм",
+    "interior": "m-mramor",
+    "section": "katalog-mramor",
+    "collection": "Серия E",
+    "image": "cat/m/E34.jpg"
+  },
+  {
+    "sku": "M73",
+    "name": "Гибкий мрамор M73",
+    "material": "Гибкий мрамор",
+    "tone": "Смотрите на фото",
+    "size": "2,8 × 1,22 м, толщина 3 мм",
+    "interior": "m-mramor",
+    "section": "katalog-mramor",
+    "collection": "Серия M",
+    "image": "cat/m/M73.jpg"
+  },
+  {
+    "sku": "E35",
+    "name": "Гибкий мрамор E35",
+    "material": "Гибкий мрамор",
+    "tone": "Смотрите на фото",
+    "size": "2,8 × 1,22 м, толщина 3 мм",
+    "interior": "m-mramor",
+    "section": "katalog-mramor",
+    "collection": "Серия E",
+    "image": "cat/m/E35.jpg"
+  },
+  {
+    "sku": "M74",
+    "name": "Гибкий мрамор M74",
+    "material": "Гибкий мрамор",
+    "tone": "Смотрите на фото",
+    "size": "2,8 × 1,22 м, толщина 3 мм",
+    "interior": "m-mramor",
+    "section": "katalog-mramor",
+    "collection": "Серия M",
+    "image": "cat/m/M74.jpg"
+  },
+  {
+    "sku": "E49",
+    "name": "Гибкий мрамор E49",
+    "material": "Гибкий мрамор",
+    "tone": "Смотрите на фото",
+    "size": "2,8 × 1,22 м, толщина 3 мм",
+    "interior": "m-mramor",
+    "section": "katalog-mramor",
+    "collection": "Серия E",
+    "image": "cat/m/E49.jpg"
+  },
+  {
+    "sku": "M75",
+    "name": "Гибкий мрамор M75",
+    "material": "Гибкий мрамор",
+    "tone": "Смотрите на фото",
+    "size": "2,8 × 1,22 м, толщина 3 мм",
+    "interior": "m-mramor",
+    "section": "katalog-mramor",
+    "collection": "Серия M",
+    "image": "cat/m/M75.jpg"
+  },
+  {
+    "sku": "E50",
+    "name": "Гибкий мрамор E50",
+    "material": "Гибкий мрамор",
+    "tone": "Смотрите на фото",
+    "size": "2,8 × 1,22 м, толщина 3 мм",
+    "interior": "m-mramor",
+    "section": "katalog-mramor",
+    "collection": "Серия E",
+    "image": "cat/m/E50.jpg"
+  },
+  {
+    "sku": "M77",
+    "name": "Гибкий мрамор M77",
+    "material": "Гибкий мрамор",
+    "tone": "Смотрите на фото",
+    "size": "2,8 × 1,22 м, толщина 3 мм",
+    "interior": "m-mramor",
+    "section": "katalog-mramor",
+    "collection": "Серия M",
+    "image": "cat/m/M77.jpg"
+  },
+  {
+    "sku": "E51",
+    "name": "Гибкий мрамор E51",
+    "material": "Гибкий мрамор",
+    "tone": "Смотрите на фото",
+    "size": "2,8 × 1,22 м, толщина 3 мм",
+    "interior": "m-mramor",
+    "section": "katalog-mramor",
+    "collection": "Серия E",
+    "image": "cat/m/E51.jpg"
+  },
+  {
+    "sku": "M79",
+    "name": "Гибкий мрамор M79",
+    "material": "Гибкий мрамор",
+    "tone": "Смотрите на фото",
+    "size": "2,8 × 1,22 м, толщина 3 мм",
+    "interior": "m-mramor",
+    "section": "katalog-mramor",
+    "collection": "Серия M",
+    "image": "cat/m/M79.jpg"
+  }
+];
+
+const find = (id) => document.getElementById(id);
+const pageSize = 16;
+const storageKey = "ex-decor-favorites";
+let favorites = new Set();
+try {
+  const stored = JSON.parse(localStorage.getItem(storageKey) || "[]");
+  if (Array.isArray(stored)) favorites = new Set(stored);
+} catch {
+  // The catalog still works in browsers with storage disabled.
+}
+
+let view = "catalog";
+let current = null;
+let limit = pageSize;
+
+function toggleFavorite(sku) {
+  if (favorites.has(sku)) favorites.delete(sku);
+  else favorites.add(sku);
+  try { localStorage.setItem(storageKey, JSON.stringify([...favorites])); } catch {}
+  render();
+  updateSaveButton();
+}
+
+function render() {
+  const query = find("query").value.trim().toLocaleLowerCase("ru");
+  const material = find("material").value;
+  const tone = find("tone").value;
+  const budget = find("budget").value;
+  const visible = items.filter((item) => {
+    if (view === "saved") return favorites.has(item.sku);
+    const text = [item.sku, item.name, item.material, item.tone, item.collection].join(" ").toLocaleLowerCase("ru");
+    if (view === "match" && budget && (item.price == null || item.price > Number(budget))) return false;
+    return text.includes(query) && (!material || material === item.material) && (!tone || tone === item.tone);
+  });
+  find("products").replaceChildren(...visible.slice(0, limit).map(productCard));
+  find("more").hidden = visible.length <= limit;
+  find("more").textContent = `Показать ещё · ${Math.min(limit, visible.length)} из ${visible.length}`;
+  if (!visible.length) {
+    const empty = document.createElement("p");
+    empty.className = "empty";
+    empty.textContent = view === "saved" ? "Сохрани образец сердечком, чтобы он появился здесь."
+      : view === "match" && budget ? "У образцов пока нет цен. Убери бюджет, чтобы посмотреть фактуры."
+      : "По этим параметрам образцов нет.";
+    find("products").append(empty);
+  }
+}
+
+function productCard(item) {
+  const card = document.createElement("article");
+  card.innerHTML = `<button type="button" class="open"><img class="texture" alt="" loading="lazy"><span class="summary"><span class="sku">${item.sku}</span><strong>${item.name}</strong><span class="status">${item.collection} · наличие уточняется</span></span></button><button type="button" class="favorite" aria-label="Избранное: ${item.sku}" aria-pressed="${favorites.has(item.sku)}">${favorites.has(item.sku) ? "♥" : "♡"}</button>`;
+  setSampleImage(card.querySelector("img"), item);
+  card.querySelector(".open").addEventListener("click", () => showDetails(item));
+  card.querySelector(".favorite").addEventListener("click", () => toggleFavorite(item.sku));
+  return card;
+}
+
+function setSampleImage(image, item) {
+  image.onerror = () => {
+    image.onerror = null;
+    image.src = `https://exdecor-ru.github.io/${item.image}`;
+  };
+  image.src = `/${item.image}`;
+}
+
+function updateSaveButton() {
+  if (!current) return;
+  const saved = favorites.has(current.sku);
+  find("save").textContent = saved ? "Сохранено" : "В избранное";
+  find("save").setAttribute("aria-pressed", saved);
+}
+
+function showDetails(item) {
+  current = item;
+  find("detail-sku").textContent = item.sku;
+  find("detail-title").textContent = item.name;
+  find("specs").innerHTML = `<dt>Материал</dt><dd>${item.material}</dd><dt>Коллекция</dt><dd>${item.collection}</dd><dt>Оттенок</dt><dd>${item.tone}</dd><dt>Размер</dt><dd>${item.size}</dd><dt>Цена и наличие</dt><dd>Уточняются</dd>`;
+  find("source").href = `https://exdecor-ru.github.io/#${item.section}`;
+  const message = `Здравствуйте! Подскажите цену и наличие декора ${item.sku}.`;
+  find("contact").href = `https://t.me/panelka56?text=${encodeURIComponent(message)}`;
+  showPhoto("sample");
+  updateSaveButton();
+  find("details").showModal();
+}
+
+function showPhoto(photo) {
+  const image = find("large-image");
+  if (photo === "sample") setSampleImage(image, current);
+  else {
+    image.onerror = null;
+    image.src = `/img/v2/${current.interior}.jpg`;
+  }
+  image.alt = photo === "sample" ? current.name : `Пример применения материала: ${current.material}`;
+  image.classList.toggle("sample", photo === "sample");
+  document.querySelectorAll("[data-photo]").forEach((button) => {
+    button.setAttribute("aria-pressed", button.dataset.photo === photo);
+  });
+}
+
+const titles = { catalog: "Каталог материалов", match: "Подбор материалов", saved: "Избранное" };
+const intros = {
+  catalog: "50 бамбуковых панелей и 50 декоров гибкого мрамора",
+  match: "Выбери материал, оттенок и бюджет.",
+  saved: "Образцы, которые ты сохранил на этом устройстве.",
+};
+
+document.querySelectorAll("[data-view]").forEach((button) => {
+  button.addEventListener("click", () => {
+    view = button.dataset.view;
+    limit = pageSize;
+    document.querySelectorAll("[data-view]").forEach((item) => item.removeAttribute("aria-current"));
+    button.setAttribute("aria-current", "page");
+    find("heading").textContent = titles[view];
+    find("intro").textContent = intros[view];
+    find("filters").hidden = view === "saved";
+    find("budget-field").hidden = view !== "match";
+    render();
+  });
+});
+document.querySelectorAll("[data-photo]").forEach((button) => button.addEventListener("click", () => showPhoto(button.dataset.photo)));
+["query", "material", "tone", "budget"].forEach((id) => find(id).addEventListener("input", () => {
+  limit = pageSize;
+  render();
+}));
+find("more").addEventListener("click", () => {
+  limit += pageSize;
+  render();
+});
+find("close").addEventListener("click", () => find("details").close());
+find("save").addEventListener("click", () => { if (current) toggleFavorite(current.sku); });
+render();
+
+</script>
+</body>
+</html>
