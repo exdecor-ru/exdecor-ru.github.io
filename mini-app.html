@@ -116,7 +116,7 @@ dd { margin: 0; }
     <section id="filters" aria-label="Фильтры">
       <label>Поиск <input id="query" type="search" placeholder="Артикул или оттенок"></label>
       <label>Материал <select id="material"><option value="">Все материалы</option><option>Бамбуковые панели</option><option>Гибкий мрамор</option></select></label>
-      <label>Оттенок <select id="tone"><option value="">Все оттенки</option><option>Светлый</option><option>Тёплый</option></select></label>
+      <label>Оттенок или рисунок <select id="tone"><option value="">Все оттенки</option></select></label>
       <label id="budget-field" hidden>Бюджет до, ₽ <input id="budget" type="number" inputmode="numeric" min="0" placeholder="Любой"></label>
     </section>
     <div id="products" class="grid" aria-live="polite"></div>
@@ -145,7 +145,7 @@ const items = [
     "sku": "EX001A",
     "name": "Древесный декор EX001A",
     "material": "Бамбуковые панели",
-    "tone": "Тёплый",
+    "tone": "Медовый и коричневый",
     "size": "Длина 3 м",
     "interior": "m-bambuk",
     "section": "katalog-bambuk",
@@ -156,7 +156,7 @@ const items = [
     "sku": "EX002A",
     "name": "Древесный декор EX002A",
     "material": "Бамбуковые панели",
-    "tone": "Тёплый",
+    "tone": "Медовый и коричневый",
     "size": "Длина 3 м",
     "interior": "m-bambuk",
     "section": "katalog-bambuk",
@@ -167,7 +167,7 @@ const items = [
     "sku": "EX003A",
     "name": "Бамбуковые панели EX003A",
     "material": "Бамбуковые панели",
-    "tone": "Смотрите на фото",
+    "tone": "Медовый и коричневый",
     "size": "Длина 3 м",
     "interior": "m-bambuk",
     "section": "katalog-bambuk",
@@ -178,7 +178,7 @@ const items = [
     "sku": "EX087Y",
     "name": "Бамбуковые панели EX087Y",
     "material": "Бамбуковые панели",
-    "tone": "Смотрите на фото",
+    "tone": "Белый и молочный",
     "size": "Длина 3 м",
     "interior": "m-bambuk",
     "section": "katalog-bambuk",
@@ -189,7 +189,7 @@ const items = [
     "sku": "EX103B",
     "name": "Бамбуковые панели EX103B",
     "material": "Бамбуковые панели",
-    "tone": "Смотрите на фото",
+    "tone": "Серый и серебристый",
     "size": "Длина 3 м",
     "interior": "m-bambuk",
     "section": "katalog-bambuk",
@@ -200,7 +200,7 @@ const items = [
     "sku": "EX122P",
     "name": "Бамбуковые панели EX122P",
     "material": "Бамбуковые панели",
-    "tone": "Смотрите на фото",
+    "tone": "Розовый и терракотовый",
     "size": "Длина 3 м",
     "interior": "m-bambuk",
     "section": "katalog-bambuk",
@@ -211,7 +211,7 @@ const items = [
     "sku": "EX187A",
     "name": "Бамбуковые панели EX187A",
     "material": "Бамбуковые панели",
-    "tone": "Смотрите на фото",
+    "tone": "Серый и серебристый",
     "size": "Длина 3 м",
     "interior": "m-bambuk",
     "section": "katalog-bambuk",
@@ -222,7 +222,7 @@ const items = [
     "sku": "EX199B",
     "name": "Бамбуковые панели EX199B",
     "material": "Бамбуковые панели",
-    "tone": "Смотрите на фото",
+    "tone": "Серый и серебристый",
     "size": "Длина 3 м",
     "interior": "m-bambuk",
     "section": "katalog-bambuk",
@@ -233,7 +233,7 @@ const items = [
     "sku": "EX202M",
     "name": "Бамбуковые панели EX202M",
     "material": "Бамбуковые панели",
-    "tone": "Смотрите на фото",
+    "tone": "Золотистый и бронзовый",
     "size": "Длина 3 м",
     "interior": "m-bambuk",
     "section": "katalog-bambuk",
@@ -244,7 +244,7 @@ const items = [
     "sku": "EX006A",
     "name": "Бамбуковые панели EX006A",
     "material": "Бамбуковые панели",
-    "tone": "Смотрите на фото",
+    "tone": "Тёмно-коричневый",
     "size": "Длина 3 м",
     "interior": "m-bambuk",
     "section": "katalog-bambuk",
@@ -255,7 +255,7 @@ const items = [
     "sku": "EX088Y",
     "name": "Бамбуковые панели EX088Y",
     "material": "Бамбуковые панели",
-    "tone": "Смотрите на фото",
+    "tone": "Медовый и коричневый",
     "size": "Длина 3 м",
     "interior": "m-bambuk",
     "section": "katalog-bambuk",
@@ -266,7 +266,7 @@ const items = [
     "sku": "EX104B",
     "name": "Бамбуковые панели EX104B",
     "material": "Бамбуковые панели",
-    "tone": "Смотрите на фото",
+    "tone": "Серый и серебристый",
     "size": "Длина 3 м",
     "interior": "m-bambuk",
     "section": "katalog-bambuk",
@@ -277,7 +277,7 @@ const items = [
     "sku": "EX123P",
     "name": "Бамбуковые панели EX123P",
     "material": "Бамбуковые панели",
-    "tone": "Смотрите на фото",
+    "tone": "Серый и серебристый",
     "size": "Длина 3 м",
     "interior": "m-bambuk",
     "section": "katalog-bambuk",
@@ -288,7 +288,7 @@ const items = [
     "sku": "EX188A",
     "name": "Бамбуковые панели EX188A",
     "material": "Бамбуковые панели",
-    "tone": "Смотрите на фото",
+    "tone": "Золотистый и бронзовый",
     "size": "Длина 3 м",
     "interior": "m-bambuk",
     "section": "katalog-bambuk",
@@ -299,7 +299,7 @@ const items = [
     "sku": "EX200B",
     "name": "Бамбуковые панели EX200B",
     "material": "Бамбуковые панели",
-    "tone": "Смотрите на фото",
+    "tone": "Медовый и коричневый",
     "size": "Длина 3 м",
     "interior": "m-bambuk",
     "section": "katalog-bambuk",
@@ -310,7 +310,7 @@ const items = [
     "sku": "EX203M",
     "name": "Бамбуковые панели EX203M",
     "material": "Бамбуковые панели",
-    "tone": "Смотрите на фото",
+    "tone": "Серый и серебристый",
     "size": "Длина 3 м",
     "interior": "m-bambuk",
     "section": "katalog-bambuk",
@@ -321,7 +321,7 @@ const items = [
     "sku": "EX007A",
     "name": "Бамбуковые панели EX007A",
     "material": "Бамбуковые панели",
-    "tone": "Смотрите на фото",
+    "tone": "Тёмно-коричневый",
     "size": "Длина 3 м",
     "interior": "m-bambuk",
     "section": "katalog-bambuk",
@@ -332,7 +332,7 @@ const items = [
     "sku": "EX089Y",
     "name": "Бамбуковые панели EX089Y",
     "material": "Бамбуковые панели",
-    "tone": "Смотрите на фото",
+    "tone": "Медовый и коричневый",
     "size": "Длина 3 м",
     "interior": "m-bambuk",
     "section": "katalog-bambuk",
@@ -343,7 +343,7 @@ const items = [
     "sku": "EX105B",
     "name": "Бамбуковые панели EX105B",
     "material": "Бамбуковые панели",
-    "tone": "Смотрите на фото",
+    "tone": "Белый и молочный",
     "size": "Длина 3 м",
     "interior": "m-bambuk",
     "section": "katalog-bambuk",
@@ -354,7 +354,7 @@ const items = [
     "sku": "EX124P",
     "name": "Бамбуковые панели EX124P",
     "material": "Бамбуковые панели",
-    "tone": "Смотрите на фото",
+    "tone": "Серый и серебристый",
     "size": "Длина 3 м",
     "interior": "m-bambuk",
     "section": "katalog-bambuk",
@@ -365,7 +365,7 @@ const items = [
     "sku": "EX189A",
     "name": "Бамбуковые панели EX189A",
     "material": "Бамбуковые панели",
-    "tone": "Смотрите на фото",
+    "tone": "Золотистый и бронзовый",
     "size": "Длина 3 м",
     "interior": "m-bambuk",
     "section": "katalog-bambuk",
@@ -376,7 +376,7 @@ const items = [
     "sku": "EX201B",
     "name": "Бамбуковые панели EX201B",
     "material": "Бамбуковые панели",
-    "tone": "Смотрите на фото",
+    "tone": "Золотистый и бронзовый",
     "size": "Длина 3 м",
     "interior": "m-bambuk",
     "section": "katalog-bambuk",
@@ -387,7 +387,7 @@ const items = [
     "sku": "EX204M",
     "name": "Бамбуковые панели EX204M",
     "material": "Бамбуковые панели",
-    "tone": "Смотрите на фото",
+    "tone": "Золотистый и бронзовый",
     "size": "Длина 3 м",
     "interior": "m-bambuk",
     "section": "katalog-bambuk",
@@ -398,7 +398,7 @@ const items = [
     "sku": "EX008A",
     "name": "Бамбуковые панели EX008A",
     "material": "Бамбуковые панели",
-    "tone": "Смотрите на фото",
+    "tone": "Тёмно-коричневый",
     "size": "Длина 3 м",
     "interior": "m-bambuk",
     "section": "katalog-bambuk",
@@ -409,7 +409,7 @@ const items = [
     "sku": "EX090Y",
     "name": "Бамбуковые панели EX090Y",
     "material": "Бамбуковые панели",
-    "tone": "Смотрите на фото",
+    "tone": "Серый и серебристый",
     "size": "Длина 3 м",
     "interior": "m-bambuk",
     "section": "katalog-bambuk",
@@ -420,7 +420,7 @@ const items = [
     "sku": "EX106B",
     "name": "Бамбуковые панели EX106B",
     "material": "Бамбуковые панели",
-    "tone": "Смотрите на фото",
+    "tone": "Бежевый и песочный",
     "size": "Длина 3 м",
     "interior": "m-bambuk",
     "section": "katalog-bambuk",
@@ -431,7 +431,7 @@ const items = [
     "sku": "EX125P",
     "name": "Бамбуковые панели EX125P",
     "material": "Бамбуковые панели",
-    "tone": "Смотрите на фото",
+    "tone": "Серый и серебристый",
     "size": "Длина 3 м",
     "interior": "m-bambuk",
     "section": "katalog-bambuk",
@@ -442,7 +442,7 @@ const items = [
     "sku": "EX193A",
     "name": "Бамбуковые панели EX193A",
     "material": "Бамбуковые панели",
-    "tone": "Смотрите на фото",
+    "tone": "Золотистый и бронзовый",
     "size": "Длина 3 м",
     "interior": "m-bambuk",
     "section": "katalog-bambuk",
@@ -453,7 +453,7 @@ const items = [
     "sku": "EX205M",
     "name": "Бамбуковые панели EX205M",
     "material": "Бамбуковые панели",
-    "tone": "Смотрите на фото",
+    "tone": "Золотистый и бронзовый",
     "size": "Длина 3 м",
     "interior": "m-bambuk",
     "section": "katalog-bambuk",
@@ -464,7 +464,7 @@ const items = [
     "sku": "EX009A",
     "name": "Бамбуковые панели EX009A",
     "material": "Бамбуковые панели",
-    "tone": "Смотрите на фото",
+    "tone": "Бежевый и песочный",
     "size": "Длина 3 м",
     "interior": "m-bambuk",
     "section": "katalog-bambuk",
@@ -475,7 +475,7 @@ const items = [
     "sku": "EX091Y",
     "name": "Бамбуковые панели EX091Y",
     "material": "Бамбуковые панели",
-    "tone": "Смотрите на фото",
+    "tone": "Серый и серебристый",
     "size": "Длина 3 м",
     "interior": "m-bambuk",
     "section": "katalog-bambuk",
@@ -486,7 +486,7 @@ const items = [
     "sku": "EX107B",
     "name": "Бамбуковые панели EX107B",
     "material": "Бамбуковые панели",
-    "tone": "Смотрите на фото",
+    "tone": "Серый и серебристый",
     "size": "Длина 3 м",
     "interior": "m-bambuk",
     "section": "katalog-bambuk",
@@ -497,7 +497,7 @@ const items = [
     "sku": "EX126P",
     "name": "Бамбуковые панели EX126P",
     "material": "Бамбуковые панели",
-    "tone": "Смотрите на фото",
+    "tone": "Серый и серебристый",
     "size": "Длина 3 м",
     "interior": "m-bambuk",
     "section": "katalog-bambuk",
@@ -508,7 +508,7 @@ const items = [
     "sku": "EX194A",
     "name": "Бамбуковые панели EX194A",
     "material": "Бамбуковые панели",
-    "tone": "Смотрите на фото",
+    "tone": "Золотистый и бронзовый",
     "size": "Длина 3 м",
     "interior": "m-bambuk",
     "section": "katalog-bambuk",
@@ -519,7 +519,7 @@ const items = [
     "sku": "EX206M",
     "name": "Бамбуковые панели EX206M",
     "material": "Бамбуковые панели",
-    "tone": "Смотрите на фото",
+    "tone": "Графит и чёрный",
     "size": "Длина 3 м",
     "interior": "m-bambuk",
     "section": "katalog-bambuk",
@@ -530,7 +530,7 @@ const items = [
     "sku": "EX010A",
     "name": "Бамбуковые панели EX010A",
     "material": "Бамбуковые панели",
-    "tone": "Смотрите на фото",
+    "tone": "Бежевый и песочный",
     "size": "Длина 3 м",
     "interior": "m-bambuk",
     "section": "katalog-bambuk",
@@ -541,7 +541,7 @@ const items = [
     "sku": "EX092Y",
     "name": "Бамбуковые панели EX092Y",
     "material": "Бамбуковые панели",
-    "tone": "Смотрите на фото",
+    "tone": "Серый и серебристый",
     "size": "Длина 3 м",
     "interior": "m-bambuk",
     "section": "katalog-bambuk",
@@ -552,7 +552,7 @@ const items = [
     "sku": "EX108B",
     "name": "Бамбуковые панели EX108B",
     "material": "Бамбуковые панели",
-    "tone": "Смотрите на фото",
+    "tone": "Серый и серебристый",
     "size": "Длина 3 м",
     "interior": "m-bambuk",
     "section": "katalog-bambuk",
@@ -563,7 +563,7 @@ const items = [
     "sku": "EX127P",
     "name": "Бамбуковые панели EX127P",
     "material": "Бамбуковые панели",
-    "tone": "Смотрите на фото",
+    "tone": "Медовый и коричневый",
     "size": "Длина 3 м",
     "interior": "m-bambuk",
     "section": "katalog-bambuk",
@@ -574,7 +574,7 @@ const items = [
     "sku": "EX195A",
     "name": "Бамбуковые панели EX195A",
     "material": "Бамбуковые панели",
-    "tone": "Смотрите на фото",
+    "tone": "Золотистый и бронзовый",
     "size": "Длина 3 м",
     "interior": "m-bambuk",
     "section": "katalog-bambuk",
@@ -585,7 +585,7 @@ const items = [
     "sku": "EX207M",
     "name": "Бамбуковые панели EX207M",
     "material": "Бамбуковые панели",
-    "tone": "Смотрите на фото",
+    "tone": "Серый и серебристый",
     "size": "Длина 3 м",
     "interior": "m-bambuk",
     "section": "katalog-bambuk",
@@ -596,7 +596,7 @@ const items = [
     "sku": "EX011A",
     "name": "Бамбуковые панели EX011A",
     "material": "Бамбуковые панели",
-    "tone": "Смотрите на фото",
+    "tone": "Медовый и коричневый",
     "size": "Длина 3 м",
     "interior": "m-bambuk",
     "section": "katalog-bambuk",
@@ -607,7 +607,7 @@ const items = [
     "sku": "EX093Y",
     "name": "Бамбуковые панели EX093Y",
     "material": "Бамбуковые панели",
-    "tone": "Смотрите на фото",
+    "tone": "Белый и молочный",
     "size": "Длина 3 м",
     "interior": "m-bambuk",
     "section": "katalog-bambuk",
@@ -618,7 +618,7 @@ const items = [
     "sku": "EX109B",
     "name": "Бамбуковые панели EX109B",
     "material": "Бамбуковые панели",
-    "tone": "Смотрите на фото",
+    "tone": "Белый и молочный",
     "size": "Длина 3 м",
     "interior": "m-bambuk",
     "section": "katalog-bambuk",
@@ -629,7 +629,7 @@ const items = [
     "sku": "EX128P",
     "name": "Бамбуковые панели EX128P",
     "material": "Бамбуковые панели",
-    "tone": "Смотрите на фото",
+    "tone": "Бежевый и песочный",
     "size": "Длина 3 м",
     "interior": "m-bambuk",
     "section": "katalog-bambuk",
@@ -640,7 +640,7 @@ const items = [
     "sku": "EX208M",
     "name": "Бамбуковые панели EX208M",
     "material": "Бамбуковые панели",
-    "tone": "Смотрите на фото",
+    "tone": "Медовый и коричневый",
     "size": "Длина 3 м",
     "interior": "m-bambuk",
     "section": "katalog-bambuk",
@@ -651,7 +651,7 @@ const items = [
     "sku": "EX012A",
     "name": "Бамбуковые панели EX012A",
     "material": "Бамбуковые панели",
-    "tone": "Смотрите на фото",
+    "tone": "Тёмно-коричневый",
     "size": "Длина 3 м",
     "interior": "m-bambuk",
     "section": "katalog-bambuk",
@@ -662,7 +662,7 @@ const items = [
     "sku": "EX094Y",
     "name": "Бамбуковые панели EX094Y",
     "material": "Бамбуковые панели",
-    "tone": "Смотрите на фото",
+    "tone": "Серый и серебристый",
     "size": "Длина 3 м",
     "interior": "m-bambuk",
     "section": "katalog-bambuk",
@@ -673,7 +673,7 @@ const items = [
     "sku": "EX110A",
     "name": "Бамбуковые панели EX110A",
     "material": "Бамбуковые панели",
-    "tone": "Смотрите на фото",
+    "tone": "Белый и молочный",
     "size": "Длина 3 м",
     "interior": "m-bambuk",
     "section": "katalog-bambuk",
@@ -684,7 +684,7 @@ const items = [
     "sku": "EX129P",
     "name": "Бамбуковые панели EX129P",
     "material": "Бамбуковые панели",
-    "tone": "Смотрите на фото",
+    "tone": "Серый и серебристый",
     "size": "Длина 3 м",
     "interior": "m-bambuk",
     "section": "katalog-bambuk",
@@ -695,7 +695,7 @@ const items = [
     "sku": "C02",
     "name": "Светлый мрамор с серыми прожилками",
     "material": "Гибкий мрамор",
-    "tone": "Светлый",
+    "tone": "Белый и молочный",
     "size": "2,8 × 1,22 м, толщина 3 мм",
     "interior": "m-mramor",
     "section": "katalog-mramor",
@@ -706,18 +706,21 @@ const items = [
     "sku": "E02",
     "name": "Светлый мрамор с золотистыми прожилками",
     "material": "Гибкий мрамор",
-    "tone": "Светлый",
+    "tone": "Белый и молочный",
     "size": "2,8 × 1,22 м, толщина 3 мм",
     "interior": "m-mramor",
     "section": "katalog-mramor",
     "collection": "Серия E",
-    "image": "cat/m/E02.jpg"
+    "image": "cat/m/E02.jpg",
+    "accents": [
+      "Золотистые прожилки"
+    ]
   },
   {
     "sku": "C03",
     "name": "Гибкий мрамор C03",
     "material": "Гибкий мрамор",
-    "tone": "Смотрите на фото",
+    "tone": "Белый и молочный",
     "size": "2,8 × 1,22 м, толщина 3 мм",
     "interior": "m-mramor",
     "section": "katalog-mramor",
@@ -728,7 +731,7 @@ const items = [
     "sku": "E03",
     "name": "Гибкий мрамор E03",
     "material": "Гибкий мрамор",
-    "tone": "Смотрите на фото",
+    "tone": "Белый и молочный",
     "size": "2,8 × 1,22 м, толщина 3 мм",
     "interior": "m-mramor",
     "section": "katalog-mramor",
@@ -739,7 +742,7 @@ const items = [
     "sku": "M08",
     "name": "Гибкий мрамор M08",
     "material": "Гибкий мрамор",
-    "tone": "Смотрите на фото",
+    "tone": "Бежевый и песочный",
     "size": "2,8 × 1,22 м, толщина 3 мм",
     "interior": "m-mramor",
     "section": "katalog-mramor",
@@ -750,18 +753,21 @@ const items = [
     "sku": "C04",
     "name": "Гибкий мрамор C04",
     "material": "Гибкий мрамор",
-    "tone": "Смотрите на фото",
+    "tone": "Синий и голубой",
     "size": "2,8 × 1,22 м, толщина 3 мм",
     "interior": "m-mramor",
     "section": "katalog-mramor",
     "collection": "Серия C",
-    "image": "cat/m/C04.jpg"
+    "image": "cat/m/C04.jpg",
+    "accents": [
+      "Контрастный рисунок"
+    ]
   },
   {
     "sku": "E06",
     "name": "Гибкий мрамор E06",
     "material": "Гибкий мрамор",
-    "tone": "Смотрите на фото",
+    "tone": "Белый и молочный",
     "size": "2,8 × 1,22 м, толщина 3 мм",
     "interior": "m-mramor",
     "section": "katalog-mramor",
@@ -772,7 +778,7 @@ const items = [
     "sku": "M14",
     "name": "Гибкий мрамор M14",
     "material": "Гибкий мрамор",
-    "tone": "Смотрите на фото",
+    "tone": "Графит и чёрный",
     "size": "2,8 × 1,22 м, толщина 3 мм",
     "interior": "m-mramor",
     "section": "katalog-mramor",
@@ -783,7 +789,7 @@ const items = [
     "sku": "C05",
     "name": "Гибкий мрамор C05",
     "material": "Гибкий мрамор",
-    "tone": "Смотрите на фото",
+    "tone": "Синий и голубой",
     "size": "2,8 × 1,22 м, толщина 3 мм",
     "interior": "m-mramor",
     "section": "katalog-mramor",
@@ -794,7 +800,7 @@ const items = [
     "sku": "E07",
     "name": "Гибкий мрамор E07",
     "material": "Гибкий мрамор",
-    "tone": "Смотрите на фото",
+    "tone": "Белый и молочный",
     "size": "2,8 × 1,22 м, толщина 3 мм",
     "interior": "m-mramor",
     "section": "katalog-mramor",
@@ -805,18 +811,21 @@ const items = [
     "sku": "M28",
     "name": "Гибкий мрамор M28",
     "material": "Гибкий мрамор",
-    "tone": "Смотрите на фото",
+    "tone": "Розовый и терракотовый",
     "size": "2,8 × 1,22 м, толщина 3 мм",
     "interior": "m-mramor",
     "section": "katalog-mramor",
     "collection": "Серия M",
-    "image": "cat/m/M28.jpg"
+    "image": "cat/m/M28.jpg",
+    "accents": [
+      "Золотистые прожилки"
+    ]
   },
   {
     "sku": "C06",
     "name": "Гибкий мрамор C06",
     "material": "Гибкий мрамор",
-    "tone": "Смотрите на фото",
+    "tone": "Белый и молочный",
     "size": "2,8 × 1,22 м, толщина 3 мм",
     "interior": "m-mramor",
     "section": "katalog-mramor",
@@ -827,7 +836,7 @@ const items = [
     "sku": "E08",
     "name": "Гибкий мрамор E08",
     "material": "Гибкий мрамор",
-    "tone": "Смотрите на фото",
+    "tone": "Белый и молочный",
     "size": "2,8 × 1,22 м, толщина 3 мм",
     "interior": "m-mramor",
     "section": "katalog-mramor",
@@ -838,7 +847,7 @@ const items = [
     "sku": "M34",
     "name": "Гибкий мрамор M34",
     "material": "Гибкий мрамор",
-    "tone": "Смотрите на фото",
+    "tone": "Белый и молочный",
     "size": "2,8 × 1,22 м, толщина 3 мм",
     "interior": "m-mramor",
     "section": "katalog-mramor",
@@ -849,7 +858,7 @@ const items = [
     "sku": "C07",
     "name": "Гибкий мрамор C07",
     "material": "Гибкий мрамор",
-    "tone": "Смотрите на фото",
+    "tone": "Синий и голубой",
     "size": "2,8 × 1,22 м, толщина 3 мм",
     "interior": "m-mramor",
     "section": "katalog-mramor",
@@ -860,7 +869,7 @@ const items = [
     "sku": "E10",
     "name": "Гибкий мрамор E10",
     "material": "Гибкий мрамор",
-    "tone": "Смотрите на фото",
+    "tone": "Графит и чёрный",
     "size": "2,8 × 1,22 м, толщина 3 мм",
     "interior": "m-mramor",
     "section": "katalog-mramor",
@@ -871,7 +880,7 @@ const items = [
     "sku": "M36",
     "name": "Гибкий мрамор M36",
     "material": "Гибкий мрамор",
-    "tone": "Смотрите на фото",
+    "tone": "Белый и молочный",
     "size": "2,8 × 1,22 м, толщина 3 мм",
     "interior": "m-mramor",
     "section": "katalog-mramor",
@@ -882,7 +891,7 @@ const items = [
     "sku": "C08",
     "name": "Гибкий мрамор C08",
     "material": "Гибкий мрамор",
-    "tone": "Смотрите на фото",
+    "tone": "Графит и чёрный",
     "size": "2,8 × 1,22 м, толщина 3 мм",
     "interior": "m-mramor",
     "section": "katalog-mramor",
@@ -893,7 +902,7 @@ const items = [
     "sku": "E11",
     "name": "Гибкий мрамор E11",
     "material": "Гибкий мрамор",
-    "tone": "Смотрите на фото",
+    "tone": "Белый и молочный",
     "size": "2,8 × 1,22 м, толщина 3 мм",
     "interior": "m-mramor",
     "section": "katalog-mramor",
@@ -904,7 +913,7 @@ const items = [
     "sku": "M39",
     "name": "Гибкий мрамор M39",
     "material": "Гибкий мрамор",
-    "tone": "Смотрите на фото",
+    "tone": "Графит и чёрный",
     "size": "2,8 × 1,22 м, толщина 3 мм",
     "interior": "m-mramor",
     "section": "katalog-mramor",
@@ -915,7 +924,7 @@ const items = [
     "sku": "C11",
     "name": "Гибкий мрамор C11",
     "material": "Гибкий мрамор",
-    "tone": "Смотрите на фото",
+    "tone": "Графит и чёрный",
     "size": "2,8 × 1,22 м, толщина 3 мм",
     "interior": "m-mramor",
     "section": "katalog-mramor",
@@ -926,7 +935,7 @@ const items = [
     "sku": "E12",
     "name": "Гибкий мрамор E12",
     "material": "Гибкий мрамор",
-    "tone": "Смотрите на фото",
+    "tone": "Серый и серебристый",
     "size": "2,8 × 1,22 м, толщина 3 мм",
     "interior": "m-mramor",
     "section": "katalog-mramor",
@@ -937,7 +946,7 @@ const items = [
     "sku": "M61",
     "name": "Гибкий мрамор M61",
     "material": "Гибкий мрамор",
-    "tone": "Смотрите на фото",
+    "tone": "Белый и молочный",
     "size": "2,8 × 1,22 м, толщина 3 мм",
     "interior": "m-mramor",
     "section": "katalog-mramor",
@@ -948,7 +957,7 @@ const items = [
     "sku": "C12",
     "name": "Гибкий мрамор C12",
     "material": "Гибкий мрамор",
-    "tone": "Смотрите на фото",
+    "tone": "Белый и молочный",
     "size": "2,8 × 1,22 м, толщина 3 мм",
     "interior": "m-mramor",
     "section": "katalog-mramor",
@@ -959,18 +968,21 @@ const items = [
     "sku": "E14",
     "name": "Гибкий мрамор E14",
     "material": "Гибкий мрамор",
-    "tone": "Смотрите на фото",
+    "tone": "Белый и молочный",
     "size": "2,8 × 1,22 м, толщина 3 мм",
     "interior": "m-mramor",
     "section": "katalog-mramor",
     "collection": "Серия E",
-    "image": "cat/m/E14.jpg"
+    "image": "cat/m/E14.jpg",
+    "accents": [
+      "Контрастный рисунок"
+    ]
   },
   {
     "sku": "M64",
     "name": "Гибкий мрамор M64",
     "material": "Гибкий мрамор",
-    "tone": "Смотрите на фото",
+    "tone": "Серый и серебристый",
     "size": "2,8 × 1,22 м, толщина 3 мм",
     "interior": "m-mramor",
     "section": "katalog-mramor",
@@ -981,18 +993,21 @@ const items = [
     "sku": "E27",
     "name": "Гибкий мрамор E27",
     "material": "Гибкий мрамор",
-    "tone": "Смотрите на фото",
+    "tone": "Синий и голубой",
     "size": "2,8 × 1,22 м, толщина 3 мм",
     "interior": "m-mramor",
     "section": "katalog-mramor",
     "collection": "Серия E",
-    "image": "cat/m/E27.jpg"
+    "image": "cat/m/E27.jpg",
+    "accents": [
+      "Контрастный рисунок"
+    ]
   },
   {
     "sku": "M65",
     "name": "Гибкий мрамор M65",
     "material": "Гибкий мрамор",
-    "tone": "Смотрите на фото",
+    "tone": "Медовый и коричневый",
     "size": "2,8 × 1,22 м, толщина 3 мм",
     "interior": "m-mramor",
     "section": "katalog-mramor",
@@ -1003,18 +1018,21 @@ const items = [
     "sku": "E28",
     "name": "Гибкий мрамор E28",
     "material": "Гибкий мрамор",
-    "tone": "Смотрите на фото",
+    "tone": "Белый и молочный",
     "size": "2,8 × 1,22 м, толщина 3 мм",
     "interior": "m-mramor",
     "section": "katalog-mramor",
     "collection": "Серия E",
-    "image": "cat/m/E28.jpg"
+    "image": "cat/m/E28.jpg",
+    "accents": [
+      "Контрастный рисунок"
+    ]
   },
   {
     "sku": "M66",
     "name": "Гибкий мрамор M66",
     "material": "Гибкий мрамор",
-    "tone": "Смотрите на фото",
+    "tone": "Белый и молочный",
     "size": "2,8 × 1,22 м, толщина 3 мм",
     "interior": "m-mramor",
     "section": "katalog-mramor",
@@ -1025,18 +1043,21 @@ const items = [
     "sku": "E29",
     "name": "Гибкий мрамор E29",
     "material": "Гибкий мрамор",
-    "tone": "Смотрите на фото",
+    "tone": "Белый и молочный",
     "size": "2,8 × 1,22 м, толщина 3 мм",
     "interior": "m-mramor",
     "section": "katalog-mramor",
     "collection": "Серия E",
-    "image": "cat/m/E29.jpg"
+    "image": "cat/m/E29.jpg",
+    "accents": [
+      "Контрастный рисунок"
+    ]
   },
   {
     "sku": "M68",
     "name": "Гибкий мрамор M68",
     "material": "Гибкий мрамор",
-    "tone": "Смотрите на фото",
+    "tone": "Серый и серебристый",
     "size": "2,8 × 1,22 м, толщина 3 мм",
     "interior": "m-mramor",
     "section": "katalog-mramor",
@@ -1047,18 +1068,21 @@ const items = [
     "sku": "E30",
     "name": "Гибкий мрамор E30",
     "material": "Гибкий мрамор",
-    "tone": "Смотрите на фото",
+    "tone": "Белый и молочный",
     "size": "2,8 × 1,22 м, толщина 3 мм",
     "interior": "m-mramor",
     "section": "katalog-mramor",
     "collection": "Серия E",
-    "image": "cat/m/E30.jpg"
+    "image": "cat/m/E30.jpg",
+    "accents": [
+      "Контрастный рисунок"
+    ]
   },
   {
     "sku": "M69",
     "name": "Гибкий мрамор M69",
     "material": "Гибкий мрамор",
-    "tone": "Смотрите на фото",
+    "tone": "Серый и серебристый",
     "size": "2,8 × 1,22 м, толщина 3 мм",
     "interior": "m-mramor",
     "section": "katalog-mramor",
@@ -1069,18 +1093,21 @@ const items = [
     "sku": "E31",
     "name": "Гибкий мрамор E31",
     "material": "Гибкий мрамор",
-    "tone": "Смотрите на фото",
+    "tone": "Серый и серебристый",
     "size": "2,8 × 1,22 м, толщина 3 мм",
     "interior": "m-mramor",
     "section": "katalog-mramor",
     "collection": "Серия E",
-    "image": "cat/m/E31.jpg"
+    "image": "cat/m/E31.jpg",
+    "accents": [
+      "Контрастный рисунок"
+    ]
   },
   {
     "sku": "M70",
     "name": "Гибкий мрамор M70",
     "material": "Гибкий мрамор",
-    "tone": "Смотрите на фото",
+    "tone": "Серый и серебристый",
     "size": "2,8 × 1,22 м, толщина 3 мм",
     "interior": "m-mramor",
     "section": "katalog-mramor",
@@ -1091,18 +1118,21 @@ const items = [
     "sku": "E32",
     "name": "Гибкий мрамор E32",
     "material": "Гибкий мрамор",
-    "tone": "Смотрите на фото",
+    "tone": "Серый и серебристый",
     "size": "2,8 × 1,22 м, толщина 3 мм",
     "interior": "m-mramor",
     "section": "katalog-mramor",
     "collection": "Серия E",
-    "image": "cat/m/E32.jpg"
+    "image": "cat/m/E32.jpg",
+    "accents": [
+      "Золотистые прожилки"
+    ]
   },
   {
     "sku": "M71",
     "name": "Гибкий мрамор M71",
     "material": "Гибкий мрамор",
-    "tone": "Смотрите на фото",
+    "tone": "Белый и молочный",
     "size": "2,8 × 1,22 м, толщина 3 мм",
     "interior": "m-mramor",
     "section": "katalog-mramor",
@@ -1113,7 +1143,7 @@ const items = [
     "sku": "E33",
     "name": "Гибкий мрамор E33",
     "material": "Гибкий мрамор",
-    "tone": "Смотрите на фото",
+    "tone": "Синий и голубой",
     "size": "2,8 × 1,22 м, толщина 3 мм",
     "interior": "m-mramor",
     "section": "katalog-mramor",
@@ -1124,7 +1154,7 @@ const items = [
     "sku": "M71-B",
     "name": "Гибкий мрамор M71-B",
     "material": "Гибкий мрамор",
-    "tone": "Смотрите на фото",
+    "tone": "Белый и молочный",
     "size": "2,8 × 1,22 м, толщина 3 мм",
     "interior": "m-mramor",
     "section": "katalog-mramor",
@@ -1135,18 +1165,21 @@ const items = [
     "sku": "E34",
     "name": "Гибкий мрамор E34",
     "material": "Гибкий мрамор",
-    "tone": "Смотрите на фото",
+    "tone": "Серый и серебристый",
     "size": "2,8 × 1,22 м, толщина 3 мм",
     "interior": "m-mramor",
     "section": "katalog-mramor",
     "collection": "Серия E",
-    "image": "cat/m/E34.jpg"
+    "image": "cat/m/E34.jpg",
+    "accents": [
+      "Контрастный рисунок"
+    ]
   },
   {
     "sku": "M73",
     "name": "Гибкий мрамор M73",
     "material": "Гибкий мрамор",
-    "tone": "Смотрите на фото",
+    "tone": "Графит и чёрный",
     "size": "2,8 × 1,22 м, толщина 3 мм",
     "interior": "m-mramor",
     "section": "katalog-mramor",
@@ -1157,18 +1190,21 @@ const items = [
     "sku": "E35",
     "name": "Гибкий мрамор E35",
     "material": "Гибкий мрамор",
-    "tone": "Смотрите на фото",
+    "tone": "Синий и голубой",
     "size": "2,8 × 1,22 м, толщина 3 мм",
     "interior": "m-mramor",
     "section": "katalog-mramor",
     "collection": "Серия E",
-    "image": "cat/m/E35.jpg"
+    "image": "cat/m/E35.jpg",
+    "accents": [
+      "Контрастный рисунок"
+    ]
   },
   {
     "sku": "M74",
     "name": "Гибкий мрамор M74",
     "material": "Гибкий мрамор",
-    "tone": "Смотрите на фото",
+    "tone": "Белый и молочный",
     "size": "2,8 × 1,22 м, толщина 3 мм",
     "interior": "m-mramor",
     "section": "katalog-mramor",
@@ -1179,7 +1215,7 @@ const items = [
     "sku": "E49",
     "name": "Гибкий мрамор E49",
     "material": "Гибкий мрамор",
-    "tone": "Смотрите на фото",
+    "tone": "Графит и чёрный",
     "size": "2,8 × 1,22 м, толщина 3 мм",
     "interior": "m-mramor",
     "section": "katalog-mramor",
@@ -1190,29 +1226,36 @@ const items = [
     "sku": "M75",
     "name": "Гибкий мрамор M75",
     "material": "Гибкий мрамор",
-    "tone": "Смотрите на фото",
+    "tone": "Серый и серебристый",
     "size": "2,8 × 1,22 м, толщина 3 мм",
     "interior": "m-mramor",
     "section": "katalog-mramor",
     "collection": "Серия M",
-    "image": "cat/m/M75.jpg"
+    "image": "cat/m/M75.jpg",
+    "accents": [
+      "Контрастный рисунок"
+    ]
   },
   {
     "sku": "E50",
     "name": "Гибкий мрамор E50",
     "material": "Гибкий мрамор",
-    "tone": "Смотрите на фото",
+    "tone": "Зелёный и бирюзовый",
     "size": "2,8 × 1,22 м, толщина 3 мм",
     "interior": "m-mramor",
     "section": "katalog-mramor",
     "collection": "Серия E",
-    "image": "cat/m/E50.jpg"
+    "image": "cat/m/E50.jpg",
+    "accents": [
+      "Золотистые прожилки",
+      "Контрастный рисунок"
+    ]
   },
   {
     "sku": "M77",
     "name": "Гибкий мрамор M77",
     "material": "Гибкий мрамор",
-    "tone": "Смотрите на фото",
+    "tone": "Серый и серебристый",
     "size": "2,8 × 1,22 м, толщина 3 мм",
     "interior": "m-mramor",
     "section": "katalog-mramor",
@@ -1223,7 +1266,7 @@ const items = [
     "sku": "E51",
     "name": "Гибкий мрамор E51",
     "material": "Гибкий мрамор",
-    "tone": "Смотрите на фото",
+    "tone": "Белый и молочный",
     "size": "2,8 × 1,22 м, толщина 3 мм",
     "interior": "m-mramor",
     "section": "katalog-mramor",
@@ -1234,7 +1277,7 @@ const items = [
     "sku": "M79",
     "name": "Гибкий мрамор M79",
     "material": "Гибкий мрамор",
-    "tone": "Смотрите на фото",
+    "tone": "Белый и молочный",
     "size": "2,8 × 1,22 м, толщина 3 мм",
     "interior": "m-mramor",
     "section": "katalog-mramor",
@@ -1338,6 +1381,23 @@ let current = null;
 let limit = pageSize;
 let photoRequest = 0;
 
+function updateToneOptions() {
+  const select = find("tone");
+  const selected = select.value;
+  const material = find("material").value;
+  const groups = new Map();
+  for (const item of items) {
+    if (material && item.material !== material) continue;
+    for (const label of [item.tone, ...(item.accents || [])]) {
+      groups.set(label, (groups.get(label) || 0) + 1);
+    }
+  }
+  const options = [...groups].sort(([first], [second]) => first.localeCompare(second, "ru"));
+  select.replaceChildren(new Option("Все оттенки", ""), ...options.map(([label, count]) =>
+    new Option(`${label} · ${count}`, label)));
+  select.value = groups.has(selected) ? selected : "";
+}
+
 function toggleFavorite(sku) {
   if (favorites.has(sku)) favorites.delete(sku);
   else favorites.add(sku);
@@ -1353,9 +1413,10 @@ function render() {
   const budget = find("budget").value;
   const visible = items.filter((item) => {
     if (view === "saved") return favorites.has(item.sku);
-    const text = [item.sku, item.name, item.material, item.tone, item.collection].join(" ").toLocaleLowerCase("ru");
+    const labels = [item.tone, ...(item.accents || [])];
+    const text = [item.sku, item.name, item.material, item.collection, ...labels].join(" ").toLocaleLowerCase("ru");
     if (view === "match" && budget && (item.price == null || item.price > Number(budget))) return false;
-    return text.includes(query) && (!material || material === item.material) && (!tone || tone === item.tone);
+    return text.includes(query) && (!material || material === item.material) && (!tone || labels.includes(tone));
   });
   find("products").replaceChildren(...visible.slice(0, limit).map(productCard));
   find("more").hidden = visible.length <= limit;
@@ -1398,7 +1459,7 @@ function showDetails(item) {
   current = item;
   find("detail-sku").textContent = item.sku;
   find("detail-title").textContent = item.name;
-  find("specs").innerHTML = `<dt>Материал</dt><dd>${item.material}</dd><dt>Коллекция</dt><dd>${item.collection}</dd><dt>Оттенок</dt><dd>${item.tone}</dd><dt>Размер</dt><dd>${item.size}</dd><dt>Цена и наличие</dt><dd>Уточняются</dd>`;
+  find("specs").innerHTML = `<dt>Материал</dt><dd>${item.material}</dd><dt>Коллекция</dt><dd>${item.collection}</dd><dt>Оттенок по фото</dt><dd>${[item.tone, ...(item.accents || [])].join(" · ")}</dd><dt>Размер</dt><dd>${item.size}</dd><dt>Цена и наличие</dt><dd>Уточняются</dd>`;
   find("source").href = `https://exdecor-ru.github.io/#${item.section}`;
   const message = `Здравствуйте! Подскажите цену и наличие декора ${item.sku}.`;
   find("contact").href = `https://t.me/panelka56?text=${encodeURIComponent(message)}`;
@@ -1489,6 +1550,7 @@ document.querySelectorAll("[data-room]").forEach((button) => {
 });
 document.querySelectorAll("[data-photo]").forEach((button) => button.addEventListener("click", () => showPhoto(button.dataset.photo)));
 ["query", "material", "tone", "budget"].forEach((id) => find(id).addEventListener("input", () => {
+  if (id === "material") updateToneOptions();
   limit = pageSize;
   render();
 }));
@@ -1498,6 +1560,7 @@ find("more").addEventListener("click", () => {
 });
 find("close").addEventListener("click", () => find("details").close());
 find("save").addEventListener("click", () => { if (current) toggleFavorite(current.sku); });
+updateToneOptions();
 render();
 
 </script>
